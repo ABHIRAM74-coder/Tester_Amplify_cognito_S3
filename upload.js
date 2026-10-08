@@ -2,6 +2,10 @@
 import { userManager } from "./main.js";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { fromCognitoIdentityPool } from "@aws-sdk/credential-providers";
+import {
+  CognitoIdentityClient,
+  GetIdCommand
+} from "@aws-sdk/client-cognito-identity";
 
 const REGION = "ap-southeast-2";
 const USER_POOL_ID = "ap-southeast-2_7ExIbmuT6";
@@ -95,10 +99,28 @@ async function uploadFile() {
       credentials
     });
 
-    const userId = currentUser.profile.sub;
-    const uniqueFileName = `${crypto.randomUUID()}-${file.name}`;
+  const identityClient = new CognitoIdentityClient({
+  region: REGION
+});
 
-    const objectKey = `users/${userId}/${uniqueFileName}`;
+const identityResponse = await identityClient.send(
+  new GetIdCommand({
+    IdentityPoolId: IDENTITY_POOL_ID,
+    Logins: {
+      [LOGIN_PROVIDER]: currentUser.id_token
+    }
+  })
+);
+
+const identityId = identityResponse.IdentityId;
+
+if (!identityId) {
+  throw new Error("Unable to retrieve Cognito Identity ID");
+}
+
+const uniqueFileName = `${crypto.randomUUID()}-${file.name}`;
+
+const objectKey = `users/${identityId}/${uniqueFileName}`;
 
     const fileBytes = new Uint8Array(await file.arrayBuffer());
 
