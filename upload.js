@@ -100,15 +100,16 @@ async function uploadFile() {
 
     const objectKey = `users/${userId}/${uniqueFileName}`;
 
-    await s3.send(
-      new PutObjectCommand({
-        Bucket: BUCKET_NAME,
-        Key: objectKey,
-        Body: file,
-        ContentType: file.type || "application/octet-stream"
-      })
-    );
+    const fileBytes = new Uint8Array(await file.arrayBuffer());
 
+await s3.send(
+  new PutObjectCommand({
+    Bucket: BUCKET_NAME,
+    Key: objectKey,
+    Body: fileBytes,
+    ContentType: file.type || "application/octet-stream"
+  })
+);
     showStatus(`Successfully uploaded: ${file.name}`);
     fileInput.value = "";
 
