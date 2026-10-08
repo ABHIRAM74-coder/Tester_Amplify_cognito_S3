@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>FamilyKit - Upload Documents</title>
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>FamilyKit</h1>
+
+        <h2>Upload Documents</h2>
+
+        <p id="welcomeMessage">
+            Welcome
+        </p>
+
+        <input
+            type="file"
+            id="fileInput"
+            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.xls,.xlsx,.ppt,.pptx"
+        >
+
+        <br><br>
+
+        <button id="uploadButton">
+            Upload to S3
+        </button>
+
+        <p id="uploadStatus"></p>
+
+        <hr>
+
+        <button id="logoutButton">
+            Log Out
+        </button>
+
+    </div>
+
+    <script type="module" src="./upload.js"></script>
+
+</body>
+
+</html>
