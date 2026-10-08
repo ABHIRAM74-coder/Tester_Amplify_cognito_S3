@@ -7,11 +7,13 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
-},
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1147.0",
+    "@aws-sdk/credential-providers": "^3.1147.0",
     "oidc-client-ts": "^3.5.0"
   },
   "devDependencies": {
